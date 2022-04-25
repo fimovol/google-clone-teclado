@@ -11,6 +11,39 @@ const MAX_PARTICIPANTS = 2
 let connected = false
 let room
 
+const videoOn = document.getElementById('videoOn');
+videoOn.addEventListener('click',() => {
+  room.localParticipant.videoTracks.forEach( ({track}) => {
+    track.enable()
+    console.log(track)
+  })
+})
+
+const videoOff = document.getElementById('videoOff');
+videoOff.addEventListener('click',() => {
+  room.localParticipant.videoTracks.forEach( ({track}) => {
+    track.disable()
+    console.log(track)
+  })
+})
+
+const speakerMute = document.getElementById('speakerMute');
+speakerMute.addEventListener("click",(e)=>{
+  e.preventDefault()
+  speakerMute.classList.toggle("mute")
+  let mute= speakerMute.classList[1]=="mute" ? true : false
+  
+  room.localParticipant.audioTracks.forEach(({track}) => {
+    if(mute){
+      track.disable()
+      console.log("mute disabled")
+      return
+    }
+    track.enable()
+    console.log("activado enabled")
+  })
+})
+
 async function addLocalVideo () {
   const $localVideo = document.getElementById('local-video')
   const track = await Twilio.Video.createLocalVideoTrack()
@@ -21,14 +54,14 @@ addLocalVideo()
 
 $form.addEventListener('submit', async (e) => {
   e.preventDefault()
-
+  
   if (connected) {
     disconnect()
     $joinButton.disabled = false
     $joinButton.innerText = 'Join the room'
     return
   }
-
+  
   const username = $userNameInput.value
   if (!username) return alert('Please provide an username')
 
@@ -39,6 +72,9 @@ $form.addEventListener('submit', async (e) => {
     await connect({username})
     $joinButton.disabled = false
     $joinButton.innerText = 'Leave the room'
+    speakerMute.style.display = 'inline-block'
+    videoOn.style.display = 'inline-block'
+    videoOff.style.display = 'inline-block'
   } catch (e) {
     console.error(e)
 
@@ -71,6 +107,9 @@ function disconnect () {
   // quitar la cámara de los divs
   connected = false
   updateParticipantCount()
+  speakerMute.style.display = 'none'
+  videoOn.style.display = 'none'
+  videoOff.style.display = 'none'
 }
 
 function updateParticipantCount () {
