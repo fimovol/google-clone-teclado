@@ -11,36 +11,43 @@ const MAX_PARTICIPANTS = 2
 let connected = false
 let room
 
-const videoOn = document.getElementById('videoOn');
-videoOn.addEventListener('click',() => {
-  room.localParticipant.videoTracks.forEach( ({track}) => {
-    track.enable()
-    console.log(track)
-  })
-})
-
-const videoOff = document.getElementById('videoOff');
-videoOff.addEventListener('click',() => {
-  room.localParticipant.videoTracks.forEach( ({track}) => {
-    track.disable()
-    console.log(track)
-  })
-})
-
-const speakerMute = document.getElementById('speakerMute');
-speakerMute.addEventListener("click",(e)=>{
+const $videoElement = document.getElementById('video');
+$videoElement.addEventListener('click',(e) => {
   e.preventDefault()
-  speakerMute.classList.toggle("mute")
-  let mute= speakerMute.classList[1]=="mute" ? true : false
-  
-  room.localParticipant.audioTracks.forEach(({track}) => {
+  room.localParticipant.videoTracks.forEach( ({track}) => {
+    let mute=track.isEnabled
     if(mute){
       track.disable()
-      console.log("mute disabled")
+      $videoElement.innerHTML= '❌'
       return
     }
     track.enable()
-    console.log("activado enabled")
+    $videoElement.innerHTML = '📷'
+  })
+})
+const $llamada = document.getElementById('llamada');
+
+$llamada.addEventListener("click",(e) => {
+  e.preventDefault()
+  if (connected) {
+    disconnect()
+    $joinButton.disabled = false
+    $joinButton.innerText = 'Join the room'
+    $count.innerHTML = ''
+  }
+})
+const speakerMute = document.getElementById('speakerMute');
+speakerMute.addEventListener("click",(e)=>{
+  e.preventDefault()
+  room.localParticipant.audioTracks.forEach(({track}) => {
+    let mute=track.isEnabled
+    if(mute){
+      track.disable()
+      speakerMute.innerHTML= '🔇'
+      return
+    }
+    track.enable()
+    speakerMute.innerHTML = '🎙️'
   })
 })
 
@@ -59,6 +66,7 @@ $form.addEventListener('submit', async (e) => {
     disconnect()
     $joinButton.disabled = false
     $joinButton.innerText = 'Join the room'
+    $count.innerHTML = ''
     return
   }
   
@@ -72,9 +80,8 @@ $form.addEventListener('submit', async (e) => {
     await connect({username})
     $joinButton.disabled = false
     $joinButton.innerText = 'Leave the room'
-    speakerMute.style.display = 'inline-block'
-    videoOn.style.display = 'inline-block'
-    videoOff.style.display = 'inline-block'
+    aparecerIconos()
+
   } catch (e) {
     console.error(e)
 
@@ -83,6 +90,16 @@ $form.addEventListener('submit', async (e) => {
     $joinButton.innerText = 'Join the room'
   }
 })
+function aparecerIconos (){
+   speakerMute.style.display = 'flex'
+    $llamada.style.display = 'flex'
+    $videoElement.style.display = 'flex'
+}
+function desaparecerIconos(){
+  speakerMute.style.display = 'none'
+  $llamada.style.display = 'none'
+  $videoElement.style.display = 'none'
+}
 
 async function connect ({username}) {
   const response = await fetch('/get_token', {
@@ -104,22 +121,27 @@ async function connect ({username}) {
 
 function disconnect () {
   room.disconnect()
-  // quitar la cámara de los divs
+  // quitar todo menos el primero .camara.participant:nth-child(1n+2)
+  var elem = document.querySelectorAll('.camara.participant:nth-child(1n+2)')
+  elem.forEach(box => {
+    box.remove();
+  })
   connected = false
   updateParticipantCount()
-  speakerMute.style.display = 'none'
-  videoOn.style.display = 'none'
-  videoOff.style.display = 'none'
+  desaparecerIconos()
 }
+
 
 function updateParticipantCount () {
   $count.innerHTML = `${room.participants.size + 1} online users`
 }
-
+// participant.identity
+//participant.id
+let sid=null
 function participantConnected (participant) {
-  const template = `<div id='participant-${participant.id}' class="participant">
-    <div class="video"></div>
-    <div>${participant.identity}</div>
+   sid = participant.sid
+  const template = `<div class="camara participant video ${sid}" id="local-video">
+    <span class="spanyo">${participant.identity}</span>
   </div>`
 
   $container.insertAdjacentHTML('beforeend', template)
@@ -135,7 +157,7 @@ function participantConnected (participant) {
 }
 
 function attachTrack (track) {
-  const $video = $container.querySelector(`.participant:last-child .video`)
+  const $video = $container.querySelector(`.camara.participant.video.${sid}`)
   $video.appendChild(track.attach())
 }
 
