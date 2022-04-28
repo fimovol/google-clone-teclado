@@ -9,7 +9,8 @@
     "s": "twilio serverless:deploy",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "twilio-run",
-    "deploy": "twilio-run deploy"
+    "deploy": "twilio-run deploy",
+    "pushgit": "git push remotejavier main"
   },
   "dependencies": {
     "twilio": "3.56",
