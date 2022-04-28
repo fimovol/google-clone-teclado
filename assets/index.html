@@ -8,25 +8,39 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <h1>Google Meet</h1>
-  <form id="form">
-    Name: <input id="username" placeholder="Type your username...">
-    <button id="join">Join Call</button>
-  </form>
-  <p id="count"></p>
-  <div id="container">
-    <div id="local" class="participant">
-      <div id="local-video"></div>
-      <div>Yo</div>
-      <button id="videoOn" class="videoOn">mostrar camara</button>
-      <button id="videoOff" class="videoOff">esconder camara</button>
-      <a href="#" class="speaker" id="speakerMute">
-        <span></span>
-      </a>
-    </div>
-    <!-- al resto de participantes -->
+  <div class="todo">
+    <div class="header">
+    <h1 class="google">Google Meet</h1>
+    <form id="form">
+      <span class="nameform">Name:</span> <input id="username" placeholder="Type your username...">
+      <button id="join">Join Call</button>
+      <span id="count" ></span>
+    </form>
+    
   </div>
-
+    <div class="containerestilos">
+    <div class="camaras" id="container">
+      <div class="camara participant" id="local-video">
+        <span class="spanyo">Watashi</span>
+      </div>
+      <!-- <div class="camara box1">
+                    
+      </div> -->
+    </div>
+    <div class="botones">
+      <div class="icono mute" id="speakerMute">
+          🎙️ <!-- 🔇 -->
+      </div>
+      <div class="icono colgar" id="llamada">
+          📞<!-- 👋 -->
+      </div>
+      <div class="icono video" id="video">
+          📷<!-- ❌ -->
+      </div>
+      
+  </div>
+  </div>
+  </div>
   <script defer src="https://sdk.twilio.com/js/video/releases/2.21.0/twilio-video.min.js"></script>
   <script defer src="./app.js"></script>
 </body>
