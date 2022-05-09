@@ -21,6 +21,11 @@
   padding-right: 4px;
   margin-bottom: 4px;
   font-size: small;
+  text-align: center;
+  width: 53px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .header{
   display: flex;
@@ -41,10 +46,14 @@
   border-top-right-radius: 15px;
   background-color: rgb(48, 48, 54);
   display: grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows: 1fr ;
+  grid-template-columns:1fr;
+  grid-template-rows: 1fr;
   align-items: center;
   justify-items: center;
+}
+.esta{
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: repeat(2,1fr);
 }
 /* .camaras{
   height: 90%;
@@ -94,6 +103,20 @@
 .participant video {
   width: 100%;
   border-radius: 15px;
+}
+@media (max-width: 1070px) {
+  .camara {
+    width: 100%;
+  }
+}
+@media (max-width: 370px) {
+  .camara {
+    width: 100%;
+  }
+  .camaras {
+    grid-template-columns: repeat(2,1fr) !important;
+    grid-template-rows: repeat(6,1fr) !important;
+  }
 }
 @media (max-width: 544px) {
   .header {

@@ -5,6 +5,7 @@ const $form = $('#form')
 const $joinButton = $('#join')
 const $container = $('#container')
 const $count = $('#count')
+const $localVideo = document.getElementById('local-video')
 
 const MAX_PARTICIPANTS = 2
 
@@ -52,7 +53,6 @@ speakerMute.addEventListener("click",(e)=>{
 })
 
 async function addLocalVideo () {
-  const $localVideo = document.getElementById('local-video')
   const track = await Twilio.Video.createLocalVideoTrack()
   $localVideo.appendChild(track.attach())
 }
@@ -81,7 +81,7 @@ $form.addEventListener('submit', async (e) => {
     $joinButton.disabled = false
     $joinButton.innerText = 'Leave the room'
     aparecerIconos()
-
+    numofparticipants()
   } catch (e) {
     console.error(e)
 
@@ -129,8 +129,30 @@ function disconnect () {
   connected = false
   updateParticipantCount()
   desaparecerIconos()
+  $container.style.gridTemplateColumns= 'repeat(1,1fr)';
+  $container.style.gridTemplateRows= 'repeat(1,1fr)';
 }
+function numofparticipants(){
+  let numero = $container.children.length
 
+  if(numero > 1){
+    $container.style.gridTemplateColumns= 'repeat(2,1fr)';
+    $container.style.gridTemplateRows= 'repeat(1,1fr)';
+    
+  }
+  if(numero > 2){
+    $container.style.gridTemplateColumns= 'repeat(2,1fr)';
+    $container.style.gridTemplateRows= 'repeat(2,1fr)';
+  }
+  if(numero > 4){
+    $container.style.gridTemplateColumns= 'repeat(3,1fr)';
+    $container.style.gridTemplateRows= 'repeat(2,1fr)';
+  }
+  if(numero > 6){
+    $container.style.gridTemplateColumns= 'repeat(3,1fr)';
+    $container.style.gridTemplateRows= 'repeat(3,1fr)';
+  }
+}
 
 function updateParticipantCount () {
   $count.innerHTML = `${room.participants.size + 1} online users`
@@ -145,7 +167,7 @@ function participantConnected (participant) {
   </div>`
 
   $container.insertAdjacentHTML('beforeend', template)
-
+  numofparticipants()
   participant.tracks.forEach(localTrackPublication => {
     const {isSubscribed, track} = localTrackPublication
     if (isSubscribed) attachTrack(track)
@@ -163,4 +185,5 @@ function attachTrack (track) {
 
 function participantDisconnected (participant) {
   console.log('participant disconnected')
+  numofparticipants()
 }
