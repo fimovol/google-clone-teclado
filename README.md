@@ -1,6 +1,6 @@
 # Requisitos para participar
 
-1. enlace(https://google-meet-clone-2566-dev.twil.io/index.html) ✔
+1. enlace(https://google-meet-clone-2000-dev.twil.io/index.html) ✔
 2. midudev canal de twitch(https://twitch.tv/midudev) (midu.live) ✔
 
 # Twilio Hackathon. Participate!
@@ -22,7 +22,7 @@ Tienes tiempo hasta el directo de TWITCH del día 6 de MAYO donde se decidirán 
 REGLAS
 1. Tiene que tener un repositorio de código abierto. ✔
 2. El proyecto debe estar desplegado (si no quieres hacer pública la URL, pásamela por privado) 
-    (https://google-meet-clone-2566-dev.twil.io/index.html) ✔
+    (https://google-meet-clone-2000-dev.twil.io/index.html) ✔
 3. En el README tiene que poner un enlace al TWITCH de midudev (https://twitch.tv/midudev)
     (midu.live) ✔
 Regístrate en Twilio con este enlace: https://www.twilio.com/referral/xdppiQ 
