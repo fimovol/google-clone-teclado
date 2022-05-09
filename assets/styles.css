@@ -36,19 +36,29 @@
 }
 .camaras{
   height: 90%;
-  width: 100%;
-  background-color: rgb(48, 48, 54);
-  display: inline-flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
+  width: 90vw;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  background-color: rgb(48, 48, 54);
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows: 1fr ;
+  align-items: center;
+  justify-items: center;
 }
+/* .camaras{
+  height: 90%;
+  background-color: rgb(48, 48, 54);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center; 
+  justify-content: space-around;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 90vw;
+} */
 .camara{
-  width: 223px;
-  height: 125px;
-  max-height: 100%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -62,6 +72,7 @@
   justify-content: center;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  z-index: 100000;
 }
 .google,.nameform,#count{
   color: beige;
@@ -80,13 +91,8 @@
   user-select: none;
   cursor: pointer;
 }
-#container {
-  width: 90vw;
-  display: flex;
-  flex-wrap: wrap;
-}
 .participant video {
-  height: 100%;
+  width: 100%;
   border-radius: 15px;
 }
 @media (max-width: 544px) {
