@@ -103,6 +103,7 @@
 .participant video {
   width: 100%;
   border-radius: 15px;
+  max-height: 276px;
 }
 @media (max-width: 1070px) {
   .camara {
